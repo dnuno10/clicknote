@@ -1,0 +1,12 @@
+# Ignorar entornos virtuales
+#clicknote_env/
+#*.venv/
+#*.env/
+
+# Ignorar archivos compilados de Python
+#__pycache__/
+#*.py[cod]
+
+# Ignorar otros archivos innecesarios
+#*.log
+
