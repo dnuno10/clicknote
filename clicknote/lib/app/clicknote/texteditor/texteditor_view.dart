@@ -6,21 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/quill_delta.dart' as quill;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+// ignore: implementation_imports
 import 'package:flutter_quill_extensions/src/editor_toolbar_shared/image_picker/image_options.dart' as quill;
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img; // Para la compresión
+// ignore: depend_on_referenced_packages
 import 'package:markdown/markdown.dart' as md; // Para convertir Markdown a Delta
 
 /// TextEditorView: Permite insertar imágenes y, al generar, inserta la respuesta del bot.
 /// Además, renderiza el texto con estilos (usando conversión Markdown → Delta)
 /// y muestra una toolbar personalizada justo arriba del teclado.
 class TextEditorView extends StatefulWidget {
+  // ignore: non_constant_identifier_names
   final String note_type;
 
   const TextEditorView({
-    Key? key,
+    super.key,
+    // ignore: non_constant_identifier_names
     required this.note_type,
-  }) : super(key: key);
+  });
 
   @override
   State<TextEditorView> createState() => _TextEditorViewState();
@@ -44,7 +48,6 @@ class _TextEditorViewState extends State<TextEditorView> {
       "HfnHCgbGEhbmYcDTmxXguWLT4LsGMLYg4U5vXRib2SM";
 
   // Estado de carga para el proceso de generación.
-  bool _isBusy = false;
   String _errorMessage = "";
 
 
@@ -59,6 +62,7 @@ class _TextEditorViewState extends State<TextEditorView> {
     } else if (widget.note_type == 'camera') {
       _onPressedCamera(context);
     } else {
+      // ignore: avoid_print
       print("normal note");
     }
   }
@@ -67,6 +71,7 @@ class _TextEditorViewState extends State<TextEditorView> {
     _isKeyboardVisible = ValueNotifier(true);
     await Future.delayed(const Duration(milliseconds: 100));
 
+    // ignore: use_build_context_synchronously
     final imagePickerService = QuillSharedExtensionsConfigurations.get(context: context).imagePickerService;
 
     // Se selecciona directamente la galería sin opción de diálogo
@@ -74,6 +79,7 @@ class _TextEditorViewState extends State<TextEditorView> {
 
     if (imageUrl == null || imageUrl.trim().isEmpty) return;
 
+    // ignore: use_build_context_synchronously
     FocusScope.of(context).unfocus();
 
     // Guardamos la URL para su uso posterior.
@@ -91,6 +97,7 @@ Future<void> _onPressedCamera(BuildContext context) async {
     _isKeyboardVisible = ValueNotifier(true);
     await Future.delayed(const Duration(milliseconds: 100));
 
+    // ignore: use_build_context_synchronously
     final imagePickerService = QuillSharedExtensionsConfigurations.get(context: context).imagePickerService;
 
     // Se selecciona directamente la galería sin opción de diálogo
@@ -98,6 +105,7 @@ Future<void> _onPressedCamera(BuildContext context) async {
 
     if (imageUrl == null || imageUrl.trim().isEmpty) return;
 
+    // ignore: use_build_context_synchronously
     FocusScope.of(context).unfocus();
 
     // Guardamos la URL para su uso posterior.
@@ -118,7 +126,9 @@ Future<void> _onPressedCamera(BuildContext context) async {
     FocusScope.of(context).unfocus();
     await Future.delayed(const Duration(milliseconds: 100));
 
+    // ignore: use_build_context_synchronously
     final imagePickerService = QuillSharedExtensionsConfigurations.get(context: context).imagePickerService;
+    // ignore: use_build_context_synchronously
     final source = await showSelectImageSourceDialog(context: context);
     if (source == null) return;
     
@@ -131,10 +141,12 @@ Future<void> _onPressedCamera(BuildContext context) async {
         imageUrl = (await imagePickerService.pickImage(source: quill.ImageSource.camera))?.path;
         break;
       case InsertImageSource.link:
+        // ignore: use_build_context_synchronously
         imageUrl = await _typeLink(context);
         break;
     }
     if (imageUrl == null || imageUrl.trim().isEmpty) return;
+    // ignore: use_build_context_synchronously
     FocusScope.of(context).unfocus();
 
     // Guardamos la URL para usarla luego en la generación.
@@ -184,6 +196,7 @@ Future<void> _onPressedCamera(BuildContext context) async {
   /// Función para llamar al API usando la imagen insertada y generar la respuesta del bot.
   /// La respuesta se insertará debajo de la imagen en el mismo editor.
   Future<void> _generateResponse() async {
+    // ignore: avoid_print
     print('hello');
     if (_lastImageUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -192,7 +205,6 @@ Future<void> _onPressedCamera(BuildContext context) async {
       return;
     }
     setState(() {
-      _isBusy = true;
       _errorMessage = "";
     });
     try {
@@ -204,7 +216,7 @@ Future<void> _onPressedCamera(BuildContext context) async {
       final compressedBytes = _processImage(bytes);
 
       // Convertimos la imagen comprimida a data URI (en formato JPEG)
-      final dataUri = "data:image/jpeg;base64," + base64Encode(compressedBytes);
+      final dataUri = "data:image/jpeg;base64,${base64Encode(compressedBytes)}";
 
       // Preparamos el payload para el API.
       final imageUploads = [
@@ -233,6 +245,7 @@ Future<void> _onPressedCamera(BuildContext context) async {
       if (response.statusCode == 200) {
         final responseJson = jsonDecode(response.body);
         final botResponse = responseJson['text'] ?? "No response from bot";
+        // ignore: avoid_print
         print(botResponse);
 
         // Obtenemos la longitud actual del documento.
@@ -262,17 +275,18 @@ Future<void> _onPressedCamera(BuildContext context) async {
       } else {
         setState(() {
           _errorMessage = "Error: ${response.statusCode} => ${response.body}";
+          // ignore: avoid_print
           print(_errorMessage);
         });
       }
     } catch (e) {
       setState(() {
         _errorMessage = "Exception: $e";
+        // ignore: avoid_print
         print(_errorMessage);
       });
     } finally {
       setState(() {
-        _isBusy = false;
       });
     }
   }
@@ -285,6 +299,7 @@ Future<void> _onPressedCamera(BuildContext context) async {
   Uint8List _processImage(Uint8List inputBytes) {
     final img.Image? original = img.decodeImage(inputBytes);
     if (original == null) {
+      // ignore: avoid_print
       print('Could not decode image. Returning original bytes.');
       return inputBytes;
     }
