@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:clicknote/app/clicknote/class/notes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
@@ -122,6 +121,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Theme.of(context).scaffoldBackgroundColor, // Color del degradado (ajustable)
+                          // ignore: deprecated_member_use
                           Theme.of(context).scaffoldBackgroundColor.withOpacity(0.0),
                         ]
                       ),
@@ -143,6 +143,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
                         end: Alignment.topCenter,
                         colors: [
                           Theme.of(context).scaffoldBackgroundColor, // Color del degradado (ajustable)
+                          // ignore: deprecated_member_use
                           Theme.of(context).scaffoldBackgroundColor.withOpacity(0.0),
                         ],
                       ),
@@ -162,6 +163,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
       borderRadius: BorderRadius.circular(30),
       color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({}),
       border: Border.all(
+        // ignore: deprecated_member_use
         color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({})?.withOpacity(0.1) ?? Colors.white.withOpacity(0.1),
         width: 1,
       ),
@@ -251,6 +253,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
               .style
               ?.foregroundColor
               ?.resolve({})
+              // ignore: deprecated_member_use
               ?.withOpacity(0.2), // Fondo semitransparente
         ),
       ),
@@ -261,6 +264,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
         decoration: BoxDecoration(
           color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({}), // Color de fondo
           border: Border.all(
+            // ignore: deprecated_member_use
             color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({})?.withOpacity(0.1) ?? Colors.white.withOpacity(0.1),
             width: 1,
           ),
@@ -395,6 +399,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
         child: Container(
           width: size.width * 0.02,
           decoration: BoxDecoration(
+            // ignore: deprecated_member_use
             color: noteColor.withOpacity(0.8),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(size.height * 0.03),
@@ -440,6 +445,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.poppins(
                 fontSize: size.height * 0.018,
+                // ignore: deprecated_member_use
                 color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({})?.withOpacity(0.5),
                 fontWeight: FontWeight.w400,
               ),
@@ -452,6 +458,7 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
                   note.date,
                   style: GoogleFonts.golosText(
                     fontSize: size.height * 0.016,
+                    // ignore: deprecated_member_use
                     color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({})?.withOpacity(0.6),
                     fontWeight: FontWeight.w500,
                   ),
@@ -483,8 +490,9 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
     final size = MediaQuery.of(context).size;
     return Shimmer.fromColors(
                       
-                        baseColor: Color(0XFFf578ff),
-                        highlightColor: Color(0XFFfe3e68).withOpacity(0.7),
+                        baseColor: const Color(0XFFf578ff),
+                        // ignore: deprecated_member_use
+                        highlightColor: const Color(0XFFfe3e68).withOpacity(0.7),
                         child: Container(
                           decoration: BoxDecoration(
                             //color: texto.withOpacity(0.2),
@@ -533,14 +541,14 @@ class _ClickNoteBodyState extends State<ClickNoteBody> {
 void _showOptionsModal(BuildContext context) {
   showModalBottomSheet(
     context: context,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     builder: (context) {
       Size size = MediaQuery.of(context).size;
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -548,7 +556,7 @@ void _showOptionsModal(BuildContext context) {
             Container(
               width: 40,
               height: 4,
-              margin: EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(
                 color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({})?.withAlpha(40),
                 borderRadius: BorderRadius.circular(10),
@@ -572,7 +580,7 @@ void _showOptionsModal(BuildContext context) {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Opciones de la lista
             /*_modalOption(
               context,
@@ -633,7 +641,7 @@ Widget _modalOption(
     },
     child: Container(
       padding: EdgeInsets.all(size.height * 0.019),
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({})?.withAlpha(10),
         borderRadius: BorderRadius.circular(size.height * 0.02),
@@ -647,7 +655,7 @@ Widget _modalOption(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 child: Icon(icon, color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({}), size: size.height * 0.024),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

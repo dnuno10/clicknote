@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
 class ImageAttachmentManager {
@@ -15,15 +16,16 @@ class ImageAttachmentManager {
   Future<bool> pickImagesFromGallery() async {
     try {
       if (_images.length >= maxImagesAllowed) {
+        // ignore: avoid_print
         print('Reached the limit of $maxImagesAllowed images.');
         return false;
       }
 
       final picker = ImagePicker();
-      final List<XFile>? pickedFiles = await picker.pickMultiImage();
+      final List<XFile> pickedFiles = await picker.pickMultiImage();
 
       // Si es null o vacío, usuario canceló
-      if (pickedFiles == null || pickedFiles.isEmpty) {
+      if (pickedFiles.isEmpty) {
         return false;
       }
 
@@ -37,6 +39,7 @@ class ImageAttachmentManager {
 
         // Descartamos si sigue siendo >5MB
         if (resizedBytes.lengthInBytes > 5 * 1024 * 1024) {
+          // ignore: avoid_print
           print('This image is > 5MB after resizing. Discarding.');
           continue;
         }
@@ -55,6 +58,7 @@ class ImageAttachmentManager {
       // Retornamos true si al menos se agregó algo
       return imageBytesToAdd.isNotEmpty;
     } catch (e) {
+      // ignore: avoid_print
       print('Error picking images from gallery: $e');
       return false;
     }
@@ -64,6 +68,7 @@ class ImageAttachmentManager {
   Future<bool> pickImageFromCamera() async {
     try {
       if (_images.length >= maxImagesAllowed) {
+        // ignore: avoid_print
         print('Reached the limit of $maxImagesAllowed images.');
         return false;
       }
@@ -81,6 +86,7 @@ class ImageAttachmentManager {
 
       // Descartar si sigue siendo >5MB
       if (resizedBytes.lengthInBytes > 5 * 1024 * 1024) {
+        // ignore: avoid_print
         print('Camera image is > 5MB after resizing. Discarding.');
         return false;
       }
@@ -94,6 +100,7 @@ class ImageAttachmentManager {
       }
       return false;
     } catch (e) {
+      // ignore: avoid_print
       print('Error picking image from camera: $e');
       return false;
     }
@@ -102,6 +109,7 @@ class ImageAttachmentManager {
   Uint8List _processImage(Uint8List inputBytes) {
     final img.Image? original = img.decodeImage(inputBytes);
     if (original == null) {
+      // ignore: avoid_print
       print('Could not decode image. Returning original bytes.');
       return inputBytes;
     }

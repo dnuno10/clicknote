@@ -18,9 +18,10 @@ class ClickNoteHeader extends StatelessWidget {
           Row(
             children: [
               Shimmer.fromColors(
-                baseColor: Color(0xFFfc7fff),
-                highlightColor: Color(0xFFaa3bff).withOpacity(0.7),
-                period: Duration(seconds: 2),
+                baseColor: const Color(0xFFfc7fff),
+                // ignore: deprecated_member_use
+                highlightColor: const Color(0xFFaa3bff).withOpacity(0.7),
+                period: const Duration(seconds: 2),
                 child: Image.asset('images/diamond.png', height: size.height * 0.035, color: Theme.of(context).canvasColor,)),
               IconButton(onPressed: (){SettingsModalView.show(context);}, icon: Icon(Icons.settings, color: Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({}),), iconSize: size.height * 0.035,),
             ],
